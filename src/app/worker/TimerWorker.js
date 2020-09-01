@@ -20,7 +20,7 @@ class TimerWorker {
       const deals = await PipedriveController.getWonDeals(domain, api_token);
       console.log(`Pipedrive response status: ${deals.status}`);
       deals.data.data.map(async (deal) => {
-        // Store a Opportunitie in mongoDB
+        // Store a basic opportunitie in mongoDB
         console.log(`Storing deal ${deal.id} in mongodb`);
         Opportunities.findOneAndUpdate(
           { id: deal.id },
@@ -32,12 +32,46 @@ class TimerWorker {
             }
           }
         );
+
+        const orderObj = {
+          pedido: {
+            obs: `Pedido inserido via integração`,
+            cliente: {
+              numero: deal.person_id.value,
+              nome: deal.person_id.name,
+              email: deal.person_id.email.value,
+            },
+            itens: [],
+          },
+        };
+
+        // Get deal products from pipedrive
+        console.log(`Getting products from deal ${deal.id} in pipedrive...`);
         const products = await PipedriveController.getDealProducts(
           domain,
           api_token,
           deal.id
         );
-        console.log(products);
+
+        // Add products in orderObj to convert in XML
+        if (products.data.data) {
+          products.data.data.map((prod) => {
+            console.log(`Item ${prod.name}`);
+            const item = {
+              codigo: prod.product_id,
+              descricao: prod.name,
+              un: 'pc',
+              qtde: prod.quantity,
+              vlr_unit: prod.item_price,
+            };
+            orderObj.pedido.itens.push(item);
+          });
+        }
+
+        // console.log(orderObj);
+        const doc = create(orderObj);
+        const xml = doc.end({ prettyPrint: true });
+        console.log(xml);
       });
     });
   }
