@@ -17,7 +17,7 @@ class TimerWorker {
 
       const api_url = `https://${domain}.pipedrive.com/api/v1/deals?status=won&start=0&api_token=${api_token}`;
 
-      await axios
+      axios
         .get(api_url)
         .then((res) => {
           console.log(`Pipedrive response status: ${res.status}`);
