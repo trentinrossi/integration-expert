@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const OpportunitiesSchema = new mongoose.Schema(
+const OpportunitySchema = new mongoose.Schema(
   {
     id: {
       type: Number,
@@ -29,4 +29,4 @@ const OpportunitiesSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model('Opportunities', OpportunitiesSchema);
+export default mongoose.model('Opportunity', OpportunitySchema);

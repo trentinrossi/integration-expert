@@ -6,7 +6,7 @@ class PipedriveController {
       const api_url = `https://${domain}.pipedrive.com/api/v1/deals?status=won&start=0&api_token=${api_token}`;
       return await axios.get(api_url);
     } catch (err) {
-      console.log(`Error to return deals ${err}`);
+      console.error(`Error to return deals ${err}`);
     }
   }
 
@@ -15,7 +15,7 @@ class PipedriveController {
       const api_url = `https://${domain}.pipedrive.com/api/v1/deals/${dealId}/products?start=0&api_token=${api_token}`;
       return await axios.get(api_url);
     } catch (err) {
-      console.log(`Error to return deal products ${err}`);
+      console.error(`Error to return deal products ${err}`);
     }
   }
 }

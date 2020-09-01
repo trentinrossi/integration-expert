@@ -1,9 +1,7 @@
 import cron from 'node-cron';
-import axios from 'axios';
-import Opportunities from '../schemas/Opportunities';
-import PipedriveDealsController from '../controllers/PipedriveController';
 import PipedriveController from '../controllers/PipedriveController';
 import BlingController from '../controllers/BlingController';
+import Opportunity from '../schemas/Opportunity';
 const { create } = require('xmlbuilder2');
 
 var task;
@@ -11,7 +9,7 @@ var task;
 class TimerWorker {
   /**
    * Start a job to integrate deals from Pipedrive to Bling
-   * @param {*} interval Quantity in seconds to run the job
+   * @param {*} interval Quantity in seconds to schedule and run the job
    */
   async startJob(domain, interval, api_token) {
     console.log(`Starting job every ${interval}s`);
@@ -26,13 +24,13 @@ class TimerWorker {
       deals.data.data.map(async (deal) => {
         // Store a basic opportunitie in mongoDB
         console.log(`Storing deal ${deal.id} in mongodb`);
-        Opportunities.findOneAndUpdate(
+        Opportunity.findOneAndUpdate(
           { id: deal.id },
           deal,
           { upsert: true },
           (err, doc, ret) => {
             if (err) {
-              console.log(`Error do save deal in mongodb: ${err}`);
+              console.log(`Error to save deal in mongodb: ${err}`);
             }
           }
         );

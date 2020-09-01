@@ -1,8 +1,8 @@
-import Opportunities from '../schemas/Opportunities';
+import Opportunity from '../schemas/Opportunity';
 
-class OpportunitieController {
+class OpportunityController {
   async list(req, res) {
-    const result = await Opportunities.aggregate([
+    const result = await Opportunity.aggregate([
       {
         $group: {
           _id: { $dateToString: { format: '%Y-%m-%d', date: '$add_time' } },
@@ -15,4 +15,4 @@ class OpportunitieController {
   }
 }
 
-export default new OpportunitieController();
+export default new OpportunityController();
