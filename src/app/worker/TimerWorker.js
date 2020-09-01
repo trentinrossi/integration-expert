@@ -3,6 +3,7 @@ import axios from 'axios';
 import Opportunities from '../schemas/Opportunities';
 import PipedriveDealsController from '../controllers/PipedriveController';
 import PipedriveController from '../controllers/PipedriveController';
+import BlingController from '../controllers/BlingController';
 const { create } = require('xmlbuilder2');
 
 var task;
@@ -35,13 +36,13 @@ class TimerWorker {
 
         const orderObj = {
           pedido: {
-            obs: `Pedido inserido via integração`,
+            obs: `Pedido inserido via integracao`,
             cliente: {
               numero: deal.person_id.value,
               nome: deal.person_id.name,
               email: deal.person_id.email.value,
             },
-            itens: [],
+            itens: { item: [] },
           },
         };
 
@@ -64,14 +65,27 @@ class TimerWorker {
               qtde: prod.quantity,
               vlr_unit: prod.item_price,
             };
-            orderObj.pedido.itens.push(item);
+            orderObj.pedido.itens.item.push(item);
           });
         }
 
         // console.log(orderObj);
-        const doc = create(orderObj);
+        const doc = create({ encoding: 'UTF-8' }, orderObj);
         const xml = doc.end({ prettyPrint: true });
-        console.log(xml);
+        // console.log(orderObj.pedido.itens);
+        // console.log(xml);
+        console.log(`Sending a order ${deal.id} to bling...`);
+        const order = await BlingController.createOrder(xml);
+
+        if (order.data.retorno.erros) {
+          console.log(order.data.retorno.erros);
+        } else {
+          if (order.data.retorno.pedidos.pedido.idPedido) {
+            console.log(
+              `Order ${order.data.retorno.pedidos.pedido.idPedido} created succesfully`
+            );
+          }
+        }
       });
     });
   }
