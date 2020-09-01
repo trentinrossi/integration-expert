@@ -18,8 +18,11 @@ class TimerWorker {
 
     task = cron.schedule(`*/${interval} * * * * *`, async () => {
       console.count(`Executing integration...`);
+
+      // Getting deals from Pipedrive
       const deals = await PipedriveController.getWonDeals(domain, api_token);
       console.log(`Pipedrive response status: ${deals.status}`);
+
       deals.data.data.map(async (deal) => {
         // Store a basic opportunitie in mongoDB
         console.log(`Storing deal ${deal.id} in mongodb`);
@@ -29,11 +32,12 @@ class TimerWorker {
           { upsert: true },
           (err, doc, ret) => {
             if (err) {
-              console.log('ERRO');
+              console.log(`Error do save deal in mongodb: ${err}`);
             }
           }
         );
 
+        // Creating a Bling Order Object to transform in XML
         const orderObj = {
           pedido: {
             obs: `Pedido inserido via integracao`,
@@ -46,7 +50,7 @@ class TimerWorker {
           },
         };
 
-        // Get deal products from pipedrive
+        // Get related deal products from pipedrive
         console.log(`Getting products from deal ${deal.id} in pipedrive...`);
         const products = await PipedriveController.getDealProducts(
           domain,
@@ -69,11 +73,10 @@ class TimerWorker {
           });
         }
 
-        // console.log(orderObj);
         const doc = create({ encoding: 'UTF-8' }, orderObj);
         const xml = doc.end({ prettyPrint: true });
-        // console.log(orderObj.pedido.itens);
-        // console.log(xml);
+
+        // Store a Order in Bling
         console.log(`Sending a order ${deal.id} to bling...`);
         const order = await BlingController.createOrder(xml);
 
@@ -82,7 +85,7 @@ class TimerWorker {
         } else {
           if (order.data.retorno.pedidos.pedido.idPedido) {
             console.log(
-              `Order ${order.data.retorno.pedidos.pedido.idPedido} created succesfully`
+              `Order ${order.data.retorno.pedidos.pedido.idPedido} created succesfully on Bling`
             );
           }
         }
@@ -95,7 +98,7 @@ class TimerWorker {
    */
   stopJob() {
     task.stop();
-    console.count(`Integration stopped.`);
+    console.log(`Integration stopped.`);
   }
 }
 
