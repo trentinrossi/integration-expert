@@ -30,7 +30,7 @@ class TimerWorker {
           { upsert: true },
           (err, doc, ret) => {
             if (err) {
-              console.log(`Error to save deal in mongodb: ${err}`);
+              console.error(`Error to save deal in mongodb: ${err}`);
             }
           }
         );
@@ -59,7 +59,6 @@ class TimerWorker {
         // Add products in orderObj to convert in XML
         if (products.data.data) {
           products.data.data.map((prod) => {
-            console.log(`Item ${prod.name}`);
             const item = {
               codigo: prod.product_id,
               descricao: prod.name,
@@ -79,11 +78,11 @@ class TimerWorker {
         const order = await BlingController.createOrder(xml);
 
         if (order.data.retorno.erros) {
-          console.log(order.data.retorno.erros);
+          console.error(order.data.retorno.erros);
         } else {
-          if (order.data.retorno.pedidos.pedido.idPedido) {
-            console.log(
-              `Order ${order.data.retorno.pedidos.pedido.idPedido} created succesfully on Bling`
+          if (order.data.retorno.pedidos[0].pedido.idPedido) {
+            console.error(
+              `Order ${order.data.retorno.pedidos[0].pedido.idPedido} created succesfully on Bling`
             );
           }
         }
