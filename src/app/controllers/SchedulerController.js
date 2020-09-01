@@ -1,8 +1,6 @@
-import Opportunities from '../schemas/Opportunities';
-import axios from 'axios';
 import TimerWorker from '../worker/TimerWorker';
 
-class PipedriveDealsController {
+class SchedulerController {
   start(req, res) {
     const { domain, interval } = req.body;
     const { api_token } = req.headers;
@@ -19,4 +17,4 @@ class PipedriveDealsController {
   }
 }
 
-export default new PipedriveDealsController();
+export default new SchedulerController();

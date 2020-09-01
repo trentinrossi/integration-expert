@@ -6,6 +6,7 @@ class Database {
   }
 
   mongo() {
+    console.log(`Trying to connect in mongodb...`);
     this.connection = mongoose.connect(
       // 'mongodb://localhost:27017/integration-expert',
       'mongodb+srv://dbUser:EoQIejQrgECp5Clt@cluster0.tnmfp.mongodb.net/integration-expert?retryWrites=true&w=majority',
@@ -14,6 +15,7 @@ class Database {
         useFindAndModify: false,
       }
     );
+    console.log(`Connected in mongodb!`);
   }
 }
 
