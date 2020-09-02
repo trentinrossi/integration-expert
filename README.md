@@ -2,7 +2,7 @@
   Integration Expert Test
 </h1>
 
-## About me
+# Technical test project by Rodrigo Rossi
 
 <p>
   <a href="https://www.linkedin.com/in/rodrigorossi/" rel="nofollow noreferrer">
@@ -13,22 +13,21 @@
   </a>
 </p>
 
-# Technical test project by Rodrigo Rossi
-
 ## Requirements
 
-- **Axios** — Promise based HTTP client for the browser and node.js
+- **Axios** - Promise based HTTP client for the browser and node.js
 - **Express** - Fast, unopinionated, minimalist web framework
 - **Mongoose** - Mongoose MongoDB ODM
 - **Node Cron** - A simple cron-like task scheduler for Node.js
 - **Xmlbuilder2** - An XML builder for node.js
 
 ## Getting started
-First you need to have `node` and `yarn` installed on your machine. Then, you need to get API_TOKEN from Pipedrive and Bling.
 
-you can clone this repository and run the following commands inside the project folder:
+1. First you need to have `node` and `yarn` installed on your machine. Then, you need to get API_TOKEN from Pipedrive and Bling.
+2. Create a MongoDB Database Collection to store data, you can to choose:
 
-1. `yarn start`;
+- Create an account in [MongoDB Atlas](https://cloud.mongodb.com).
+- Run inside a Docker, then run the following command `docker run --name mongo-integration-expert -p 27017:27017 -d -t mongo`
+  Add the connection string created in src/database.index.js.
 
-
-docker run --name mongo-integration-expert -p 27017:27017 -d -t mongo
+3. Run the following commands inside the project folder: `yarn start`
