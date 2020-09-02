@@ -34,12 +34,9 @@
 
 ## Endpoints
 
-Path     | Method | Headers | Body |
--------- | ------ | ------- |----- |
-/start   |  POST  | bling_token<br> pipedrive_token | domain, interval |
-/stop    |  POST  |
-/status  |  GET   |
-/opportunity |  POST  |
-
-## Example
-# start
+| Path         | Method | Headers                         | Body                                                                                      | Description                                                            |
+| ------------ | ------ | ------------------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| /start       | POST   | bling_token<br> pipedrive_token | domain (Pipedrive domain)<br> interval (Seconds to run the scheduled job for integration) | Start a scheduled job for integration                                  |
+| /stop        | POST   |                                 |                                                                                           | Stop the current job                                                   |
+| /status      | GET    |                                 |                                                                                           | Get a status of the current job                                        |
+| /opportunity | GET    |                                 |                                                                                           | Get a aggregated opportunities stored in Bling by day and total amount |
