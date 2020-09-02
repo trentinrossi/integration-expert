@@ -11,7 +11,7 @@ class Database {
       // Change this connection string according to the environment
 
       // 'mongodb://localhost:27017/integration-expert',
-      'mongodb+srv://dbUser:EoQIejQrgECp5Clt@cluster0.erdci.mongodb.net/integration-expert?retryWrites=true&w=majority',
+      'VIEW README',
       {
         useNewUrlParser: true,
         useFindAndModify: false,
