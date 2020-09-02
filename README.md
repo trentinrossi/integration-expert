@@ -36,7 +36,10 @@
 
 Path     | Method | Headers | Body |
 -------- | ------ | ------- |----- |
-/start   |  POST  | bling_token, pipedrive_token | domain, interval |
+/start   |  POST  | bling_token<br> pipedrive_token | domain, interval |
 /stop    |  POST  |
 /status  |  GET   |
 /opportunity |  POST  |
+
+## Example
+# start
