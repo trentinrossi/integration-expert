@@ -17,12 +17,18 @@
 
 ## Requirements
 
-- **Axios** — [![GitHub version](https://badge.fury.io/gh/axios.svg)](https://badge.fury.io/gh/axios)- Promise based HTTP client for the browser and node.js
-- **Express** - [![GitHub version](https://badge.fury.io/gh/express.svg)](https://badge.fury.io/gh/express) - Fast, unopinionated, minimalist web framework
-- **Mongoose** - [![npm version](https://badge.fury.io/js/mongoose.svg)](https://badge.fury.io/js/mongoose) - Mongoose MongoDB ODM
-- **Node Cron** - [![npm version](https://badge.fury.io/js/node-cron.svg)](https://badge.fury.io/js/node-cron) - A simple cron-like task scheduler for Node.js
-- **Xmlbuilder2** - [![npm version](https://badge.fury.io/js/xmlbuilder2.svg)](https://badge.fury.io/js/xmlbuilder2) - An XML builder for node.js
+- **Axios** — Promise based HTTP client for the browser and node.js
+- **Express** - Fast, unopinionated, minimalist web framework
+- **Mongoose** - Mongoose MongoDB ODM
+- **Node Cron** - A simple cron-like task scheduler for Node.js
+- **Xmlbuilder2** - An XML builder for node.js
 
 ## Getting started
+First you need to have `node` and `yarn` installed on your machine. Then, you need to get API_TOKEN from Pipedrive and Bling.
+
+you can clone this repository and run the following commands inside the project folder:
+
+1. `yarn start`;
+
 
 docker run --name mongo-integration-expert -p 27017:27017 -d -t mongo
