@@ -43,6 +43,8 @@
 
 ## Credentials for testing purposes only
 
+Please, use this tokens and MongoDB URL only for tests.
+
 | For       | Use                                                                                                             |
 | --------- | --------------------------------------------------------------------------------------------------------------- |
 | Pipedrive | 6bde503dca8c8b5aab332ac24aa20101247ce2d7                                                                        |
