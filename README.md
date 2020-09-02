@@ -34,9 +34,9 @@
 
 ## Endpoints
 
-Endpoint | Method | Headers | Body |
+Path     | Method | Headers | Body |
 -------- | ------ | ------- |----- |
-/start   |  POST  |
+/start   |  POST  | bling_token, pipedrive_token | domain, interval |
 /stop    |  POST  |
 /status  |  GET   |
 /opportunity |  POST  |
