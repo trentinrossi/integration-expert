@@ -14,13 +14,17 @@ class TimerWorker {
    */
   async startJob(domain, interval, pipedrive_token, bling_token) {
     console.log(`Starting job every ${interval}s`);
+    count = 0;
 
     task = cron.schedule(`*/${interval} * * * * *`, async () => {
       console.count(`Executing integration...`);
       count++;
 
       // Getting deals from Pipedrive
-      const deals = await PipedriveController.getWonDeals(domain, pipedrive_token);
+      const deals = await PipedriveController.getWonDeals(
+        domain,
+        pipedrive_token
+      );
       console.log(`Pipedrive response status: ${deals.status}`);
 
       deals.data.data.map(async (deal) => {
@@ -98,6 +102,7 @@ class TimerWorker {
   stopJob() {
     if (task) {
       task.destroy();
+      count = -1;
     }
     console.log(`Integration stopped.`);
   }
