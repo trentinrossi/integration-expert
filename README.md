@@ -28,6 +28,15 @@
 
 - Create an account in [MongoDB Atlas](https://cloud.mongodb.com).
 - Run inside a Docker, then run the following command `docker run --name mongo-integration-expert -p 27017:27017 -d -t mongo`
-  Add the connection string created in src/database.index.js.
+- Add the created connection string in src/database.index.js.
 
 3. Run the following commands inside the project folder: `yarn start`
+
+## Endpoints
+
+Endpoint | Method | Headers | Body |
+-------- | ------ | ------- |----- |
+/start   |  POST  |
+/stop    |  POST  |
+/status  |  GET   |
+/opportunity |  POST  |
