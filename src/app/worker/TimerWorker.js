@@ -5,20 +5,22 @@ import Opportunity from '../schemas/Opportunity';
 const { create } = require('xmlbuilder2');
 
 var task;
+var count = 0;
 
 class TimerWorker {
   /**
    * Start a job to integrate deals from Pipedrive to Bling
    * @param {*} interval Quantity in seconds to schedule and run the job
    */
-  async startJob(domain, interval, api_token) {
+  async startJob(domain, interval, pipedrive_token, bling_token) {
     console.log(`Starting job every ${interval}s`);
 
     task = cron.schedule(`*/${interval} * * * * *`, async () => {
       console.count(`Executing integration...`);
+      count++;
 
       // Getting deals from Pipedrive
-      const deals = await PipedriveController.getWonDeals(domain, api_token);
+      const deals = await PipedriveController.getWonDeals(domain, pipedrive_token);
       console.log(`Pipedrive response status: ${deals.status}`);
 
       deals.data.data.map(async (deal) => {
@@ -52,7 +54,7 @@ class TimerWorker {
         console.log(`Getting products from deal ${deal.id} in pipedrive...`);
         const products = await PipedriveController.getDealProducts(
           domain,
-          api_token,
+          pipedrive_token,
           deal.id
         );
 
@@ -75,14 +77,14 @@ class TimerWorker {
 
         // Store a Order in Bling
         console.log(`Sending a order ${deal.id} to bling...`);
-        const order = await BlingController.createOrder(xml);
+        const order = await BlingController.createOrder(xml, bling_token);
 
         if (order.data.retorno.erros) {
           console.error(order.data.retorno.erros);
         } else {
           if (order.data.retorno.pedidos[0].pedido.idPedido) {
             console.error(
-              `Order ${order.data.retorno.pedidos[0].pedido.idPedido} created succesfully on Bling`
+              `Order ${order.data.retorno.pedidos[0].pedido.idPedido} created successfully on Bling`
             );
           }
         }
@@ -91,11 +93,25 @@ class TimerWorker {
   }
 
   /**
-   * Stop the actual job
+   * Stop the active job
    */
   stopJob() {
-    task.stop();
+    if (task) {
+      task.destroy();
+    }
     console.log(`Integration stopped.`);
+  }
+
+  /**
+   * Return the job status
+   */
+  statusJob() {
+    if (task) {
+      if ((task.status = 'scheduled')) {
+        return count;
+      }
+    }
+    return -1;
   }
 }
 

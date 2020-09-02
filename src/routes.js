@@ -6,6 +6,7 @@ const routes = new Router();
 
 routes.post('/start', SchedulerController.start);
 routes.post('/stop', SchedulerController.stop);
+routes.get('/status', SchedulerController.status);
 routes.get('/opportunity', OpportunityController.list);
 
 export default routes;

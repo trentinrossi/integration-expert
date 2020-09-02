@@ -3,9 +3,9 @@ import TimerWorker from '../worker/TimerWorker';
 class SchedulerController {
   start(req, res) {
     const { domain, interval } = req.body;
-    const { api_token } = req.headers;
+    const { pipedrive_token, bling_token } = req.headers;
 
-    TimerWorker.startJob(domain, interval, api_token);
+    TimerWorker.startJob(domain, interval, pipedrive_token, bling_token);
 
     return res.send({ status: 'Integration started!' });
   }
@@ -13,7 +13,16 @@ class SchedulerController {
   stop(req, res) {
     TimerWorker.stopJob();
 
-    return res.send({ status: 'Stop succefully' });
+    return res.send({ status: 'Stop successfully' });
+  }
+
+  status(req, res) {
+    const ret = TimerWorker.statusJob();
+    if (ret >= 0) {
+      res.send({ status: `Job is active and has already run ${ret} times.` });
+    } else {
+      res.send({ status: `Job is stopped.` });
+    }
   }
 }
 
